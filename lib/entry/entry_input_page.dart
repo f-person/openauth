@@ -8,16 +8,16 @@ import 'package:openauth/shared/custom/switch.dart';
 import 'package:otp/otp.dart';
 import 'package:provider/provider.dart';
 
-class InputRoute extends StatefulWidget {
-  const InputRoute({Key? key, this.entry}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key, this.entry}) : super(key: key);
 
   final Entry? entry;
 
   @override
-  _InputRouteState createState() => _InputRouteState();
+  _InputPageState createState() => _InputPageState();
 }
 
-class _InputRouteState extends State<InputRoute> {
+class _InputPageState extends State<InputPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _issuerController;
@@ -75,22 +75,23 @@ class _InputRouteState extends State<InputRoute> {
 
       return Consumer<EntryNotifier>(builder: (context, notifier, child) {
         return Scaffold(
-            appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                actions: [
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(elevation: 0),
-                        onPressed: () {
-                          _save(notifier.put);
-                        },
-                        icon: const Icon(Icons.save_outlined),
-                        label: Text(Translations.of(context)!.button_save)),
-                  )
-                ]),
-            body: SingleChildScrollView(
+          body: CustomScrollView(slivers: [
+            SliverAppBar(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              actions: [
+                Container(
+                  margin: const EdgeInsets.all(8),
+                  child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(elevation: 0),
+                      onPressed: () {
+                        _save(notifier.put);
+                      },
+                      icon: const Icon(Icons.save_outlined),
+                      label: Text(Translations.of(context)!.button_save)),
+                )
+              ],
+            ),
+            SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Form(
@@ -103,6 +104,7 @@ class _InputRouteState extends State<InputRoute> {
                         const SizedBox(width: 16),
                         Expanded(
                             child: DropdownInputField<OTPType>(
+                                selected: _type,
                                 items: OTPType.values,
                                 labels: [
                                   Translations.of(context)!.otp_type_totp,
@@ -228,6 +230,7 @@ class _InputRouteState extends State<InputRoute> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: DropdownInputField<Algorithm>(
+                                    selected: _algorithm,
                                     items: Algorithm.values,
                                     labels: [
                                       Translations.of(context)!
@@ -267,7 +270,9 @@ class _InputRouteState extends State<InputRoute> {
                   ]),
                 ),
               ),
-            ));
+            )
+          ]),
+        );
       });
     });
   }

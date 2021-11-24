@@ -50,5 +50,19 @@ ThemeData getBase({Brightness brightness = Brightness.light}) {
             fontSize: 20),
         iconTheme: IconThemeData(color: base.colorScheme.onSurface)),
     bottomAppBarTheme: base.bottomAppBarTheme.copyWith(elevation: 12),
+    bottomSheetTheme: base.bottomSheetTheme.copyWith(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+    ),
+    snackBarTheme: base.snackBarTheme.copyWith(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+    ),
   );
 }

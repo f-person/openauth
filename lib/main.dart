@@ -22,10 +22,6 @@ class OpenAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent));
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => PreferenceNotifier()),
@@ -34,6 +30,11 @@ class OpenAuth extends StatelessWidget {
         ],
         child: Consumer<PreferenceNotifier>(
           builder: (context, notifier, _) {
+            SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+                systemNavigationBarColor: Colors.transparent,
+                statusBarColor: Colors.transparent,
+                systemStatusBarContrastEnforced: false));
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
             return MaterialApp(
               supportedLocales: AppLocales.all,
               localizationsDelegates: const [
@@ -59,11 +60,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<UnlockNotifier>(
